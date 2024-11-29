@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>ユーザー情報入力</title>
+</head>
+<body>
+<h1>ユーザー情報入力</h1>
+
+<form th:action="@{/sample/confirm}" th:object="${userForm}" method="post">
+  <div>
+    <label for="name">名前:</label>
+    <input type="text" th:field="*{name}" id="name">
+  </div>
+
+  <div>
+    <label for="phoneNumber">電話番号:</label>
+    <input type="tel" th:field="*{phoneNumber}" id="phoneNumber">
+  </div>
+
+  <div>
+    <button type="submit" name="doConfirm">確認</button>
+    <button type="submit" name="getName">Name</button>
+  </div>
+</form>
+</body>
+</html>

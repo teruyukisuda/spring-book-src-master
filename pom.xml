@@ -101,5 +101,6 @@
         <module>2251-training-test-rest-answer</module>
         <module>2302-shopping-selenide</module>
         <module>2302-shopping-selenide-answer</module>
+        <module>sec11</module>
     </modules>
 </project>
