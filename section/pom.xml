@@ -25,6 +25,10 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.example</groupId>
+      <artifactId>0001-training-common</artifactId>
+    </dependency>
   </dependencies>
 
   <artifactId>section</artifactId>
