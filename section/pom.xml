@@ -27,7 +27,7 @@
     </dependency>
   </dependencies>
 
-  <artifactId>sec11</artifactId>
+  <artifactId>section</artifactId>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
