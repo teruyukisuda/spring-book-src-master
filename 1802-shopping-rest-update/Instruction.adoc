@@ -15,7 +15,7 @@ curl -v -H "Accept: application/json" http://localhost:8080/api/products/p01
 
 .. PUTでデータを更新
 +
-----
+---w-
 curl -v -X PUT -H "Content-Type: application/json" http://localhost:8080/api/products/p01 -d @json/put-data.json
 ----
 
@@ -33,4 +33,5 @@ curl -v -X DELETE http://localhost:8080/api/products/p08
 
 === オプション
 IDを指定してデータを取得しようとして、データが見つからなかった場合に、ステータスコード404を返すようにしましょう。
+
 
