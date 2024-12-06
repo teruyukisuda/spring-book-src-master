@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AuthPageController {
+
     @RequestMapping("/display-access-denied")
     public String accessDenied() {
         return "auth/accessDenial";
