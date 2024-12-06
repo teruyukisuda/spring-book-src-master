@@ -3,6 +3,9 @@ package com.example.myapp.training.controller;
 import java.util.List;
 
 import com.example.myapp.training.input.TrainingAdminInput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +20,7 @@ import com.example.myapp.training.service.TrainingAdminService;
 @Controller
 @RequestMapping("/admin/training")
 public class TrainingAdminController {
+	private static final Logger logger = LoggerFactory.getLogger(TrainingAdminController.class);
 
 	private final TrainingAdminService trainingAdminService;
 
@@ -26,6 +30,13 @@ public class TrainingAdminController {
 
 	@GetMapping("/display-list")
 	public String displayList(Model model) {
+        if (logger.isDebugEnabled()) {
+			logger.debug("display-list-debug");
+			logger.info("display-list");
+        }
+        if (logger.isInfoEnabled()) {
+            logger.info("display-list");
+        }
 		List<Training> trainings = trainingAdminService.findAll();
 		model.addAttribute("trainingList", trainings);
 		return "admin/training/trainingList";
@@ -52,10 +63,16 @@ public class TrainingAdminController {
 	}
 
 	@PostMapping(value = "/register", params = "register")
-	public String register(@Validated TrainingAdminInput trainingAdminInput, Model model) {
-        trainingAdminService.register(trainingAdminInput);
-        model.addAttribute("trainingId", trainingAdminInput.getId());
-        return "admin/training/registrationCompletion";
+	public String register(@Validated TrainingAdminInput trainingAdminInput, Model model, BindingResult bindingResult) {
+		
+		
+        try {
+            trainingAdminService.register(trainingAdminInput);
+        } catch (DuplicateKeyException e) {
+			model.addAttribute("duplicateError", "キーが重複してる");
+			return "admin/training/registrationForm";
+        }
+		return "redirect:/admin/training/registrationComplete";
 	}
 
 
