@@ -63,8 +63,8 @@ public class TrainingAdminController {
     }
 
     @PostMapping(value = "/update", params = "update")
-    public String update(@Validated TrainingAdminInput trainingAdminInput, Authentication authentication) {
-        trainingAdminService.update(trainingAdminInput, authentication.getName());
+    public String update(@Validated TrainingAdminInput trainingAdminInput) {
+        trainingAdminService.update(trainingAdminInput);
         return "admin/training/updateCompletion";
     }
 

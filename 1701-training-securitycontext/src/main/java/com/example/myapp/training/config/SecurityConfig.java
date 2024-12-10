@@ -44,7 +44,7 @@ public class SecurityConfig {
         UserDetails taro = User.builder()
                 .username("taro").password("{noop}taro123").roles("ADMIN").build();
         UserDetails jiro = User.builder()
-                .username("jiro").password("{noop}jiro123").roles("STAFF").build();
+                .username("jiro").password("{noop}jiro123").roles("STAFF", "ADMIN").build();
         UserDetails saburo = User.builder()
                 .username("saburo").password("{noop}saburo123").roles("GUEST").build();
         return new InMemoryUserDetailsManager(taro, jiro, saburo);
