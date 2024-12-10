@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -68,5 +69,6 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         UserDetails taro = User.builder().username("taro").password("{noop}123456").roles(
             "MANAGER").build();
+        return new InMemoryUserDetailsManager(taro);
     }
 } 
