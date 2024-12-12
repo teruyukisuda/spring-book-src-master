@@ -1,6 +1,6 @@
 package com.example.myapp.repository;
 
-import com.example.myapp.controller.ShoppingRestController.Product;
+import com.example.myapp.repository.entity.ProductEntity;
 import java.util.List;
 import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,9 +16,9 @@ public class ShoppingRepositoryImpl implements ShoppingRepository {
     }
 
     @Override
-    public List<Product> selectAllProducts() {
-        List<Product> query = jdbcTemplate.query("select * from t_product",
-            new DataClassRowMapper<>(Product.class));
-        return query;
+    public List<ProductEntity> selectAllProducts() {
+        List<ProductEntity> products = jdbcTemplate.query("select * from t_product",
+            new DataClassRowMapper<>(ProductEntity.class));
+        return products;
     }
 }

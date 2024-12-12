@@ -5,7 +5,11 @@
   <title>ログイン</title>
 </head>
 <body>
-ユーザ名<input type="text" name="user"/>
+<div th:if="${failureMessage != null}" th:text="${failureMessage}"></div>
+<form th:action="@{/login}" method="post">
+ユーザ名<input type="text" name="username"/>
 パスワード<input type="text" name="password"/>
+<input type="submit" >
+</form>
 </body>
 </html>

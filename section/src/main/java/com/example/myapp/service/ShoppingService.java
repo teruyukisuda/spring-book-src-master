@@ -1,9 +1,8 @@
 package com.example.myapp.service;
 
-import com.example.myapp.controller.ShoppingRestController.Product;
+import com.example.myapp.view.ProductDto;
 import java.util.List;
-import org.springframework.stereotype.Service;
 
 public interface ShoppingService {
-    public List<Product> getAllProducts();
+    public List<ProductDto> getAllProducts();
 }

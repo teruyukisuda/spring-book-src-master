@@ -4,6 +4,9 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import com.example.myapp.shopping.entity.Product;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -44,4 +47,37 @@ class ProductMaintenanceServiceImplTest {
             productMaintenanceService.update(productMaintenanceInput);
         }).isInstanceOf(OptimisticLockingFailureException.class);
     }
+    
+    @Test
+    public void test_findAll() {
+        Product p1 = new Product();
+        p1.setId("p01");
+        p1.setName("pname01");
+        p1.setPrice(100);
+        p1.setStock(1);
+        Product p2 = new Product();
+        p1.setId("p01");
+        p1.setName("pname01");
+        p1.setPrice(100);
+        p1.setStock(1);
+        doReturn(Arrays.asList(p1,p2)).when(productRepository).selectAll();
+        
+        List<Product> all = productMaintenanceService.findAll();
+        assertThat(all).hasSize(2);
+    }
+    
+    @Test
+    public void test_findById() {
+        Product p1 = new Product();
+        p1.setId("p01");
+        p1.setName("pname01");
+        p1.setPrice(100);
+        p1.setStock(1);
+        doReturn(p1).when(productRepository).selectById("p01");
+
+        Product byId = productMaintenanceService.findById("p01");
+        assertThat(byId).isEqualTo(p1);
+        assertThat(byId.getName()).isEqualTo("pname01");
+    }
+    
 }

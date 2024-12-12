@@ -1,8 +1,8 @@
 package com.example.myapp.repository;
 
-import com.example.myapp.controller.ShoppingRestController.Product;
+import com.example.myapp.repository.entity.ProductEntity;
 import java.util.List;
 
 public interface ShoppingRepository {
-    public List<Product> selectAllProducts();
+    public List<ProductEntity> selectAllProducts();
 }

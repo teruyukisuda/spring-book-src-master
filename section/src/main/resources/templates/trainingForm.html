@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<form th:action="@{/trainings/create}" th:object="${trainingDto}" method="post">
+  <div class="form-group">
+    <!-- タイトル -->
+    <div class="mb-3">
+      <label for="title" class="form-label">タイトル</label>
+      <input type="text" class="form-control" id="title" th:field="*{title}" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+    </div>
+
+    <!-- 開始日時 -->
+    <div class="mb-3">
+      <label for="startDateTime" class="form-label">開始日時</label>
+      <input type="datetime-local" class="form-control" id="startDateTime"
+             th:field="*{start_date_time}" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('start_date_time')}"
+           th:errors="*{start_date_time}"></div>
+    </div>
+
+    <!-- 終了日時 -->
+    <div class="mb-3">
+      <label for="endDateTime" class="form-label">終了日時</label>
+      <input type="datetime-local" class="form-control" id="endDateTime"
+             th:field="*{end_date_time}" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('end_date_time')}"
+           th:errors="*{end_date_time}"></div>
+    </div>
+
+    <!-- 予約済み人数 -->
+    <div class="mb-3">
+      <label for="reserved" class="form-label">予約済み人数</label>
+      <input type="number" class="form-control" id="reserved"
+             th:field="*{reserved}" min="0" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('reserved')}"
+           th:errors="*{reserved}"></div>
+    </div>
+
+    <!-- 定員 -->
+    <div class="mb-3">
+      <label for="capacity" class="form-label">定員</label>
+      <input type="number" class="form-control" id="capacity"
+             th:field="*{capacity}" min="1" required>
+      <div class="text-danger" th:if="${#fields.hasErrors('capacity')}"
+           th:errors="*{capacity}"></div>
+    </div>
+
+    <!-- 送信ボタン -->
+    <button type="submit" class="btn btn-primary">登録</button>
+    <a th:href="@{/trainings}" class="btn btn-secondary">戻る</a>
+  </div>
+</form>
+
+</body>
+</html>
