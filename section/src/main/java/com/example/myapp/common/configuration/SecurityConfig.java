@@ -36,6 +36,9 @@ public class SecurityConfig {
             // CSRFを無効化する場合（APIとして使用する場合など）
             //.csrf().disable()
             .authorizeHttpRequests()
+            // h2-consoleへは誰でも行ける
+            .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"))
+            .permitAll()
             // 静的リソースへのアクセスを明示的に許可
             .requestMatchers(
                 "/css/**",
@@ -45,6 +48,12 @@ public class SecurityConfig {
                 "/error",
                 "/webjars/**"
             ).permitAll()
+            // 誰でも見られるページへのGET
+            .requestMatchers(HttpMethod.GET, "/shoppings/showall")
+            .permitAll()
+            // apiは誰でも許可
+            .requestMatchers(HttpMethod.GET, "/api/**")
+            .permitAll()
             // ログイン関連のパスを許可
             .requestMatchers("/login", "/logout")
             .permitAll()
@@ -52,12 +61,6 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.GET, "/shoppings").hasRole("ADMIN")
             // training 
             .requestMatchers(HttpMethod.GET, "/trainings").hasRole("ADMIN")
-            // 誰でも見られるページへのGET
-            .requestMatchers(HttpMethod.GET, "/shoppings/showall")
-            .permitAll()
-            // apiは許可
-            .requestMatchers(HttpMethod.GET, "/api/**")
-            .permitAll()
             // その他すべてのリクエストは認証が必要
             .anyRequest().authenticated()
          .and()
