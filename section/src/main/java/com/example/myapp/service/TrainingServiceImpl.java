@@ -14,7 +14,12 @@ public class TrainingServiceImpl implements TrainingService {
     
     public List<TrainingDto> findAll(){
         return trainingRepository.selectAll();
-    };
+    }
+
+    @Override
+    public TrainingDto findById(String id) {
+        return trainingRepository.selectById(id);
+    }
     
     public void register(TrainingDto trainingDto){
         trainingRepository.insert(trainingDto);

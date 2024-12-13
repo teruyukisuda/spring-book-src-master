@@ -58,16 +58,16 @@ public class SecurityConfig {
             .requestMatchers("/login", "/logout")
             .permitAll()
             // shopping
-            .requestMatchers(HttpMethod.GET, "/shoppings").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/shoppings/**").hasRole("ADMIN")
             // training 
-            .requestMatchers(HttpMethod.GET, "/trainings").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/trainings/**").hasRole("ADMIN")
             // その他すべてのリクエストは認証が必要
             .anyRequest().authenticated()
          .and()
             .formLogin()
             .loginPage("/login")
             .failureUrl("/login?failure")
-            .defaultSuccessUrl("/shopping", false)  // true を追加
+            .defaultSuccessUrl("/shoppings", false)  // true を追加
             .permitAll()  // ログインフォームへのアクセスを許可
         .and()
             .logout()

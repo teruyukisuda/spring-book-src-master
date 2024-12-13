@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,7 +25,14 @@ public class TrainingController {
     public String trainings(Model model) {
         List<TrainingDto> trainings = trainingService.findAll();
         model.addAttribute("trainings", trainings);
-        return "training";
+        return "trainings";
+    }
+    
+    @GetMapping("/{id}")
+    public String trainingDetail(Model model, @PathVariable String id) {
+        TrainingDto trainingDto = trainingService.findById(id);
+        model.addAttribute("trainingDto", trainingDto);
+        return "trainingDetail";
     }
 
     @GetMapping("/create")

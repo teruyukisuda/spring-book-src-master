@@ -5,5 +5,6 @@ import java.util.List;
 
 public interface TrainingRepository {
     public List<TrainingDto> selectAll();
+    public TrainingDto selectById(String id);
     public boolean insert(TrainingDto trainingDto);
 }

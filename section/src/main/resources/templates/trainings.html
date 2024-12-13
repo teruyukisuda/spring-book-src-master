@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>研修一覧</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+  <!-- ヘッダー部分 -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">研修一覧</h1>
+    <div class="flex gap-4">
+      <form th:action="@{/trainings/create}" method="get">
+        <button type="submit"
+                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+          新規作成
+        </button>
+      </form>
+      <form th:action="@{/logout}" method="post">
+        <button type="submit"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+          ログアウト
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 研修一覧 -->
+  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+    <div class="divide-y divide-gray-200">
+      <div th:each="training: ${trainings}" th:object="${training}"
+           class="group hover:bg-gray-50 transition-colors">
+        <a th:href="@{/trainings/{id}(id=*{id})}" class="block p-6">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors"
+                  th:text="*{title}">トレーニング１</h3>
+              <div class="mt-2 flex items-center gap-4">
+                <div class="text-sm text-gray-600"
+                     th:text="${#temporals.format(training.start_date_time, 'yyyy/MM/dd HH:mm')}">
+                </div>
+                <div class="text-sm text-gray-500">
+                  参加者: <span th:text="*{reserved}">0</span>/<span th:text="*{capacity}">10</span>
+                </div>
+              </div>
+            </div>
+            <div class="text-gray-400 group-hover:text-blue-600 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- 研修が存在しない場合 -->
+      <div th:if="${#lists.isEmpty(trainings)}" class="p-6 text-center text-gray-500">
+        研修が登録されていません
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

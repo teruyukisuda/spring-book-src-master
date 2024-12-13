@@ -1,12 +1,13 @@
 package com.example.myapp.view;
 
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public class TrainingDto {
     private String id;
+    @NotBlank
     private String title;
     private LocalDateTime start_date_time;
-
     private LocalDateTime end_date_time;
     private int reserved;
     private int capacity;

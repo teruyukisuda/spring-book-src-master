@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>研修詳細</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+<div class="container mx-auto px-4 py-8 max-w-4xl" th:object="${trainingDto}">
+  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+    <!-- ヘッダー -->
+    <div class="bg-blue-600 px-6 py-4">
+      <h2 class="text-xl font-bold text-white">研修詳細</h2>
+    </div>
+
+    <div class="p-6">
+      <!-- タイトルセクション -->
+      <div class="mb-8">
+        <h3 class="text-2xl font-bold text-gray-800" th:text="*{title}">ビジネスマナー研修</h3>
+      </div>
+
+      <!-- 日時情報 -->
+      <div class="grid md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <label class="block text-sm text-gray-500 mb-1">開始日時</label>
+          <div class="text-lg text-gray-800"
+               th:text="${#temporals.format(trainingDto.start_date_time, 'yyyy/MM/dd HH:mm')}">
+            2023/08/01 09:30
+          </div>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <label class="block text-sm text-gray-500 mb-1">終了日時</label>
+          <div class="text-lg text-gray-800"
+               th:text="${#temporals.format(trainingDto.end_date_time, 'yyyy/MM/dd HH:mm')}">
+            2023/08/03 17:00
+          </div>
+        </div>
+      </div>
+
+      <!-- 予約状況 -->
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+          <label class="block text-sm text-gray-500 mb-1">予約済み</label>
+          <div class="flex items-baseline">
+            <span class="text-3xl font-bold text-gray-800" th:text="*{reserved}">1</span>
+            <span class="ml-1 text-gray-600">名</span>
+          </div>
+        </div>
+
+        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+          <label class="block text-sm text-gray-500 mb-1">定員</label>
+          <div class="flex items-baseline">
+            <span class="text-3xl font-bold text-gray-800" th:text="*{capacity}">10</span>
+            <span class="ml-1 text-gray-600">名</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-lg border"
+             th:classappend="${trainingDto.capacity == trainingDto.reserved} ? 'bg-red-50 border-red-200' : 'bg-green-50 border-green-200'">
+          <label class="block text-sm text-gray-500 mb-1">空き状況</label>
+          <div class="flex items-baseline">
+            <span class="text-3xl font-bold text-gray-800" th:text="*{capacity - reserved}">9</span>
+            <span class="ml-1 text-gray-600">名</span>
+          </div>
+          <div class="mt-2">
+                        <span th:if="*{capacity == reserved}"
+                              class="inline-block px-2 py-1 text-xs font-semibold text-red-700 bg-red-100 rounded">満員</span>
+            <span th:if="*{capacity > reserved}"
+                  class="inline-block px-2 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded">予約可能</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- フッター -->
+    <div class="px-6 py-4 bg-gray-50 border-t">
+      <div class="flex gap-4">
+        <a th:href="@{/trainings}"
+           class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+          一覧へ戻る
+        </a>
+        <a th:href="@{/trainings/{id}/edit(id=*{id})}"
+           class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+          編集
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

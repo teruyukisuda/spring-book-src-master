@@ -5,5 +5,6 @@ import java.util.List;
 
 public interface TrainingService {
     List<TrainingDto> findAll();
+    TrainingDto findById(String id);
     void register(TrainingDto dto);
 }
