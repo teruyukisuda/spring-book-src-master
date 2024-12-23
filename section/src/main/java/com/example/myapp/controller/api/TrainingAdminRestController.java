@@ -1,23 +1,35 @@
 package com.example.myapp.controller.api;
 
+import com.example.myapp.service.TrainingService;
+import com.example.myapp.view.TrainingDto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class TrainingAdminRestController {
 
+    @Autowired
+    public TrainingService trainingService;
+
     protected final Log logger = LogFactory.getLog(getClass());
+
     public static class Training {
 
         public Training(String id, String name) {
@@ -28,8 +40,9 @@ public class TrainingAdminRestController {
         public String id;
         public String name;
     }
-    
+
     public static class TrainingAdminInput {
+
         private String id;
         @NotBlank
         private String title;
@@ -43,7 +56,7 @@ public class TrainingAdminRestController {
         @NotNull
         @Min(1)
         private Integer capacity;
-        
+
         public Integer getCapacity() {
             return capacity;
         }
@@ -91,21 +104,33 @@ public class TrainingAdminRestController {
         public void setId(String id) {
             this.id = id;
         }
-        
+
     }
 
-    @GetMapping("/api/training/{id}")
-    public ResponseEntity<Training> hello(@PathVariable String id) {
-        return ResponseEntity.ok().eTag("xym1").header("abc", "efg").body(new Training(id, "end fo "
-            + "world"));
+    @GetMapping("/trainings")
+    public ResponseEntity<List<TrainingDto>> getAllTrainings() {
+        List<TrainingDto> all = trainingService.findAll();
+        return ResponseEntity.ok().body(all);
     }
-    
-    @PutMapping("/api/training/{id}")
-    public void update(@PathVariable String id, @Validated @RequestBody TrainingAdminInput training) {
+
+    @GetMapping("/trainings/{id}")
+    public ResponseEntity<TrainingDto> hello(@PathVariable String id) {
+        TrainingDto training = trainingService.findById(id);
+        return ResponseEntity.ok().eTag("xym1").header("abc", "efg").body(training);
+    }
+
+    @PutMapping("/trainings/{id}")
+    public void update(@PathVariable String id,
+        @Validated @RequestBody TrainingAdminInput training) {
         logger.debug(training.getTitle());
         System.out.println(training.getTitle());
     }
-    
-    
+
+    @PostMapping("/trainings")
+    public ResponseEntity<TrainingDto> create(@RequestBody TrainingDto training) {
+        TrainingDto created = trainingService.register(training);
+        return ResponseEntity.created(URI.create("/trainings/" + created.getId())).body(created);
+    }
+
 
 }

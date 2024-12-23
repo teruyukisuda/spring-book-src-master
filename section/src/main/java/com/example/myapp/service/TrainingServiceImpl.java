@@ -21,8 +21,9 @@ public class TrainingServiceImpl implements TrainingService {
         return trainingRepository.selectById(id);
     }
     
-    public void register(TrainingDto trainingDto){
+    public TrainingDto register(TrainingDto trainingDto){
         trainingRepository.insert(trainingDto);
+        return trainingDto;
     }
     
 }
