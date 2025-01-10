@@ -1,0 +1,217 @@
+openapi: 3.0.3
+info:
+  title: Member Management API
+  description: API for managing members with JWT authentication
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+components:
+  schemas:
+    MemberDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        email:
+          type: string
+          format: email
+          example: "user@example.com"
+        password:
+          type: string
+          writeOnly: true
+          example: "password123"
+        name:
+          type: string
+          example: "John Doe"
+      required:
+        - email
+        - password
+        - name
+
+    AuthRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: "user@example.com"
+        password:
+          type: string
+          example: "password123"
+      required:
+        - email
+        - password
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiJ9..."
+
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Authenticate user and get JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/members:
+    get:
+      tags:
+        - Members
+      summary: Get all members
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of all members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemberDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    post:
+      tags:
+        - Members
+      summary: Create a new member
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberDTO'
+      responses:
+        '200':
+          description: Member created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberDTO'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/members/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+        description: Member ID
+
+    get:
+      tags:
+        - Members
+      summary: Get member by ID
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Member found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberDTO'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Member not found
+
+    put:
+      tags:
+        - Members
+      summary: Update member by ID
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberDTO'
+      responses:
+        '200':
+          description: Member updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberDTO'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Member not found
+
+    delete:
+      tags:
+        - Members
+      summary: Delete member by ID
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Member deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Member not found
